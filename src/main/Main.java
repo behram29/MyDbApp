@@ -15,6 +15,7 @@ public class Main {
         car.setModel("Avante Dizel");
         carDao.updateCar(car);
         System.out.println("Car = "+car);
+        System.out.println("------------------------------------------");
     }
 
 
