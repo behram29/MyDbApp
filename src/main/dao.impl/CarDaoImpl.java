@@ -68,6 +68,29 @@ public class CarDaoImpl extends AbstractDAO implements CarDaoInter {
         return result;
     }
 
+    @Override
+    public boolean addCar(Car car) {
+        try(Connection conn = connect()) {
+
+            //Statement stmt = conn.createStatement(); //SQL injectionun qarshisini almaq ucun create statementden istifade olunmamaq meslehet gorulur.
+            PreparedStatement stmt = conn.prepareStatement("insert into cars (car_Model, car_Type," +
+                    "                                                       car_Brand, car_Price, " +
+                    "                                                       car_Engine, car_Year)" +
+                    "                                                       values(?, ?, ?, ?, ?, ?)");
+            stmt.setString(1,car.getModel());
+            stmt.setString(2,car.getType());
+            stmt.setString(3,car.getBrand());
+            stmt.setString(4,car.getPrice());
+            stmt.setString(5,car.getEngine());
+            stmt.setString(6, car.getYear());
+            return stmt.execute();
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean updateCar(Car car) {
 
         try(Connection conn = connect()) {
