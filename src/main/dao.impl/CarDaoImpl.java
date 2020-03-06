@@ -1,37 +1,64 @@
 package main.dao.impl;
 
+
 import main.bean.Car;
+import main.bean.Model;
 import main.dao.inter.AbstractDAO;
 import main.dao.inter.CarDaoInter;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarDaoImpl extends AbstractDAO implements CarDaoInter {
+    private Car getCar(ResultSet rs) throws  Exception{
+        int id = rs.getInt("car_Id");
+        int modelId = rs.getInt("Car_Model_Id");
+        String modelName = rs.getString("Car_Model_Name");
+        String type = rs.getString("car_Type_Id");
+        String brand = rs.getString("car_Brand_Id");
+        String color = rs.getString("car_Color");
+        int price = rs.getInt("car_Price");
+        String engine = rs.getString("car_Engine");
+        String placeofproduction = rs.getString("car_PlaceofProduction_Id");
+        Date year = rs.getDate("car_Year");
+        String transmission = rs.getString("car_Transmission");
+        String fueltype = rs.getString("car_Fuel_Type");
+        String details = rs.getString("car_Details");
+
+        Model model = new Model(modelId,modelName);
+
+        return new Car(id, model, type, brand, color, price, engine, placeofproduction, year, transmission, fueltype, details);
+
+    }
     public List<Car> getAll() {
-
         List<Car> result = new ArrayList<>();
-
         try ( Connection conn = connect() ) {
-
             Statement stmt = conn.createStatement();
-            stmt.execute("select * from cars");
+            stmt.execute("select c.*," +
+                    "           m.model_name as Car_Model_Name" +
+                    "           from  cars c" +
+                    "           left join models m on c.car_Model_Id = m.model_id;");
             ResultSet rs = stmt.getResultSet();
 
             while(rs.next()){
                 int id = rs.getInt("car_Id");
-                String model = rs.getString("car_Model");
-                String type = rs.getString("car_Type");
-                String brand = rs.getString("car_Brand");
-                String price = rs.getString("car_Price");
+                int modelId = rs.getInt("Car_Model_Id");
+                String modelName = rs.getString("Car_Model_Name");
+                String type = rs.getString("car_Type_Id");
+                String brand = rs.getString("car_Brand_Id");
+                String color = rs.getString("car_Color");
+                int price = rs.getInt("car_Price");
                 String engine = rs.getString("car_Engine");
-                String year = rs.getString("car_Year");
+                String placeofproduction = rs.getString("car_PlaceofProduction_Id");
+                Date year = rs.getDate("car_Year");
+                String transmission = rs.getString("car_Transmission");
+                String fueltype = rs.getString("car_Fuel_Type");
+                String details = rs.getString("car_Details");
 
-                result.add(new Car(id, model, type, brand, price, engine, year));
+                Model model = new Model(modelId,modelName);
+
+                result.add(new Car(id, model, type, brand, color, price, engine, placeofproduction, year, transmission, fueltype, details));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -52,14 +79,23 @@ public class CarDaoImpl extends AbstractDAO implements CarDaoInter {
 
             while(rs.next()){
                 int id = rs.getInt("car_Id");
-                String model = rs.getString("car_Model");
-                String type = rs.getString("car_Type");
-                String brand = rs.getString("car_Brand");
-                String price = rs.getString("car_Price");
+                int modelId = rs.getInt("Car_Model_Id");
+                String modelName = rs.getString("Car_Model_Name");
+                String type = rs.getString("car_Type_Id");
+                String brand = rs.getString("car_Brand_Id");
+                String color = rs.getString("car_Color");
+                int price = rs.getInt("car_Price");
                 String engine = rs.getString("car_Engine");
-                String year = rs.getString("car_Year");
+                String placeofproduction = rs.getString("car_PlaceofProduction_Id");
+                Date year = rs.getDate("car_Year");
+                String transmission = rs.getString("car_Transmission");
+                String fueltype = rs.getString("car_Fuel_Type");
+                String details = rs.getString("car_Details");
 
-                result = new Car(id, model, type, brand, price, engine, year);
+                Model model = new Model(modelId,modelName);
+
+                result = new Car(id, model, type, brand, color, price, engine, placeofproduction, year, transmission, fueltype, details);
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
