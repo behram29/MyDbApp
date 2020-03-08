@@ -7,6 +7,7 @@ public class Car {
     private Model model;
     private String type;
     private String brand;
+    private String color;
     private int price;
     private String engine;
     private String placeofbirth;
@@ -15,14 +16,15 @@ public class Car {
     private String fueltype;
     private String details;
 
-    public Car(int id, Model model, String type, String brand, String color, int price, String engine, String placeofproduction, Date year, String transmission, String fueltype, String details) {
+    public Car() {
     }
 
-    public Car(int id, Model model, String type, String brand, int price, String engine, String placeofbirth, Date year, String transmission, String fueltype, String details) {
+    public Car(int id, Model model, String type, String brand, String color, int price, String engine, String placeofbirth, Date year, String transmission, String fueltype, String details) {
         this.id = id;
         this.model = model;
         this.type = type;
         this.brand = brand;
+        this.color = color;
         this.price = price;
         this.engine = engine;
         this.placeofbirth = placeofbirth;
@@ -62,6 +64,14 @@ public class Car {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public int getPrice() {
@@ -127,6 +137,7 @@ public class Car {
                 ", model=" + model +
                 ", type='" + type + '\'' +
                 ", brand='" + brand + '\'' +
+                ", color='" + color + '\'' +
                 ", price=" + price +
                 ", engine='" + engine + '\'' +
                 ", placeofbirth='" + placeofbirth + '\'' +

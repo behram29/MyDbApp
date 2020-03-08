@@ -20,9 +20,11 @@ public class Main {
         //carDao.addCar(car);
         //carDao.removeCar(1);
 
-        List<Car> cars = carDao.getAll();
-        System.out.println("Cars="+cars);
+        //List<Car> cars = carDao.getAll();
+        System.out.println(carDao.getById(7));
         //System.out.println("------------------------------------------");
+
+
     }
 
 
