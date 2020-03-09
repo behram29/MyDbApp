@@ -2,7 +2,9 @@ package main.dao.impl;
 
 
 import main.bean.Car;
+import main.bean.CarSkill;
 import main.bean.Model;
+import main.bean.Skill;
 import main.dao.inter.AbstractDAO;
 import main.dao.inter.CarDaoInter;
 
@@ -31,12 +33,20 @@ public class CarDaoImpl extends AbstractDAO implements CarDaoInter {
         return new Car(id, model, type, brand, color, price, engine, placeofproduction, year, transmission, fueltype, details);
 
     }
+
+    private CarSkill getCarSkill(ResultSet rs) throws  Exception{
+        int car_skill_Id = rs.getInt("car_skill_Id");
+        int car_skill_Car_Id = rs.getInt("car_skill_Car_Id");
+        String skill_name = rs.getString("skill_Name");
+        int car_skill_Skill_Id = rs.getInt("car_skill_Skill_Id");
+        int car_skill_Rate = rs.getInt("car_skill_Rate");
+
+        return new CarSkill(car_skill_Id, new Car(car_skill_Car_Id), new Skill(car_skill_Skill_Id,skill_name), car_skill_Rate);
+    }
     public List<Car> getAll() {
         List<Car> result = new ArrayList<>();
         try ( Connection conn = connect() ) {
             Statement stmt = conn.createStatement();
-            String query = "select c.*, m.model_name as modelname from  cars c left join models m on c.car_Model_Id = m.model_id;";
-            System.out.println(query);
             stmt.execute("select c.*," +
                     "           m.model_name as modelname" +
                     "           from  cars c" +
@@ -135,5 +145,33 @@ public class CarDaoImpl extends AbstractDAO implements CarDaoInter {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<CarSkill> getAllCarSkillByCarId(int carId) {
+        List<CarSkill> result = new ArrayList<>();
+        try ( Connection conn = connect() ) {
+            PreparedStatement stmt = conn.prepareStatement("select" +
+                    "    c.*," +
+                    "    cs.car_skill_Skill_Id," +
+                    "    s.skill_Name as Skill_Name," +
+                    "    cs.car_skill_Rate" +
+                    "from" +
+                    "    cars_skills cs" +
+                    "left join cars c on cs.car_skill_Car_Id =c.car_Id" +
+                    "left join skills s on cs.car_skill_Skill_Id = s.skill_Id" +
+                    "where" +
+                    "    cs.car_skill_Car_Id = ?;");
+            stmt.setInt(1,carId);
+            ResultSet rs = stmt.getResultSet();
+
+            while(rs.next()){
+                CarSkill carSkill = getCarSkill(rs);
+                result.add(carSkill);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
     }
 }

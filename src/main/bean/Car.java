@@ -1,6 +1,7 @@
 package main.bean;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Car {
     private int id;
@@ -15,8 +16,13 @@ public class Car {
     private String transmission;
     private String fueltype;
     private String details;
+    private Oil oil;
+    private List<CarSkill> car_skill;
 
     public Car() {
+    }
+
+    public Car(int id){
     }
 
     public Car(int id, Model model, String type, String brand, String color, int price, String engine, String placeofbirth, Date year, String transmission, String fueltype, String details) {

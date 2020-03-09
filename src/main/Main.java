@@ -21,7 +21,8 @@ public class Main {
         //carDao.removeCar(1);
 
         //List<Car> cars = carDao.getAll();
-        System.out.println(carDao.getById(7));
+        //System.out.println(cars);
+        System.out.println(carDao.getAllCarSkillByCarId(10));
         //System.out.println("------------------------------------------");
 
 
